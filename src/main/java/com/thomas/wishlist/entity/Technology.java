@@ -1,6 +1,5 @@
 package com.thomas.wishlist.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +20,7 @@ public class Technology {
     private Integer technologyId;
 
     @NonNull
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "technologyId",
@@ -30,16 +29,17 @@ public class Technology {
     private List<Course> courses;
 
     @Transient
-    @JsonIgnore
+//    @JsonIgnore
     private double technologyAvg = 0.0;
 
-    @Transient
     public double getTechnologyAvg() {
-        for (Course course : this.courses) {
-            this.technologyAvg += course.getCompletionPercentage();
+        // I used this temp variable, otherwise the method is invoked twice!
+        double temp = technologyAvg;
+        for (Course course : courses) {
+            temp += course.getCompletionPercentage();
         }
 
-        return this.technologyAvg / this.courses.size();
+        return temp / courses.size();
     }
 
 }

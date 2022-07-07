@@ -38,6 +38,7 @@ public class TechnologyController {
         return new ResponseEntity<>(this.technologyService.findAllTechnology(), HttpStatus.OK);
     }
 
+
     // endpoint: Retrieve a Technology based on its ID
     @GetMapping("/technologies/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) throws TechnologyNotFoundException {
