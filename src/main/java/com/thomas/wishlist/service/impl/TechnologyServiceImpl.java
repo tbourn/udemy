@@ -1,5 +1,6 @@
 package com.thomas.wishlist.service.impl;
 
+import com.thomas.wishlist.entity.Course;
 import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.TechnologyNotFoundException;
 import com.thomas.wishlist.repository.TechnologyRepository;
@@ -7,7 +8,7 @@ import com.thomas.wishlist.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TechnologyServiceImpl implements TechnologyService {
@@ -24,6 +25,19 @@ public class TechnologyServiceImpl implements TechnologyService {
     public Technology findById(Integer technologyId) throws TechnologyNotFoundException {
         return this.technologyRepository.findById(technologyId)
                 .orElseThrow(() -> new TechnologyNotFoundException("Could not find department " + technologyId));
+    }
+
+    @Override
+    public Map<String, List<Course>> convertList(List<Technology> list) {
+        // sort by key by insensitive order
+        Map<String, List<Course>> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        for (Technology technology : list) {
+            map.put(technology.getName(), technology.getCourses());
+
+            // sort by course name
+            technology.getCourses().sort(Comparator.comparing(Course::getName));
+        }
+        return map;
     }
 
 //    @Override

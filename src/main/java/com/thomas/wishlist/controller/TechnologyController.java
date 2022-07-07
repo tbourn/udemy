@@ -38,6 +38,14 @@ public class TechnologyController {
         return new ResponseEntity<>(this.technologyService.findAllTechnology(), HttpStatus.OK);
     }
 
+    // endpoint: Retrieve a map with: keys all the Technology Names and values the
+    //list with the corresponding Courses, ordered by their Name.
+    @GetMapping("/technologiesAndCourses")
+    public ResponseEntity<?> findTechnologiesAndCourses() {
+        return new ResponseEntity<>(this.technologyService.convertList(
+                this.technologyService.findAllTechnology()), HttpStatus.OK);
+    }
+
 
     // endpoint: Retrieve a Technology based on its ID
     @GetMapping("/technologies/{id}")
