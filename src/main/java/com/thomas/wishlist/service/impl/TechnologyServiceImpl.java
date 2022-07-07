@@ -29,9 +29,13 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     public Map<String, List<Course>> convertList(List<Technology> list) {
-        // sort by key by insensitive order
+        // sort by key, use case-insensitive order
         Map<String, List<Course>> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        for (Technology technology : list) {
+
+        // shallow copy of list
+        List<Technology> copyArray = new ArrayList<>(list);
+
+        for (Technology technology : copyArray) {
             map.put(technology.getName(), technology.getCourses());
 
             // sort by course name

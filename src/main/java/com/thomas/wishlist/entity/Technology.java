@@ -20,7 +20,7 @@ public class Technology {
     private Integer technologyId;
 
     @NonNull
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "technologyId",

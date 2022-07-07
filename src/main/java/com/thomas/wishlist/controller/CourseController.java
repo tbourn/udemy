@@ -6,7 +6,6 @@ import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.CourseNotFoundException;
 import com.thomas.wishlist.repository.CourseRepository;
 import com.thomas.wishlist.service.CourseService;
-import com.thomas.wishlist.service.TechnologyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +16,19 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class CourseController {
     private final CourseService courseService;
-    private final TechnologyService technologyService;
+//    private final TechnologyService technologyService;
     private final CourseRepository courseRepository;
 
-    public CourseController(CourseService courseService, CourseRepository courseRepository,
-                            TechnologyService technologyService) {
+//    public CourseController(CourseService courseService, CourseRepository courseRepository,
+//                            TechnologyService technologyService) {
+//        this.courseService = courseService;
+//        this.courseRepository = courseRepository;
+//        this.technologyService = technologyService;
+//    }
+
+    public CourseController(CourseService courseService, CourseRepository courseRepository) {
         this.courseService = courseService;
         this.courseRepository = courseRepository;
-        this.technologyService = technologyService;
     }
 
     // endpoint: create a new Course under a specific Technology
@@ -46,10 +50,10 @@ public class CourseController {
     }
 
     // endpoint: Retrieve a Course based on its ID
-    @GetMapping("/courses/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id) throws CourseNotFoundException {
-        return new ResponseEntity<>(this.courseService.findById(id), HttpStatus.OK);
-    }
+//    @GetMapping("/courses/{id}")
+//    public ResponseEntity<?> findById(@PathVariable Integer id) throws CourseNotFoundException {
+//        return new ResponseEntity<>(this.courseService.findById(id), HttpStatus.OK);
+//    }
 
     // endpoint: Retrieve a Course based on its Name
     @GetMapping("/courses/name")
@@ -61,8 +65,8 @@ public class CourseController {
     @PutMapping("courses/{id}")
     public ResponseEntity<?> updateCourse(@Valid @RequestBody CourseRequest courseRequest, @PathVariable Integer id)
             throws CourseNotFoundException {
-        Course course = new Course();
-        course = courseService.findById(id);
+//        Course course = new Course();
+        Course course = courseService.findById(id);
         course.setName(courseRequest.getName());
         course.setCompletionPercentage(courseRequest.getCompletionPercentage());
 
@@ -70,14 +74,14 @@ public class CourseController {
     }
 
     // endpoint: Delete a Course based on its ID
-    @DeleteMapping("/courses/{id}")
-    public ResponseEntity<?> deleteCourse(@PathVariable Integer id) throws CourseNotFoundException {
-        if (this.courseService.deleteCourseById(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @DeleteMapping("/courses/{id}")
+//    public ResponseEntity<?> deleteCourse(@PathVariable Integer id) throws CourseNotFoundException {
+//        if (this.courseService.deleteCourseById(id)) {
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     // endpoint: Delete a Course based on its Name
     @DeleteMapping("/courses/name")

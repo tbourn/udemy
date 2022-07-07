@@ -48,10 +48,10 @@ public class TechnologyController {
 
 
     // endpoint: Retrieve a Technology based on its ID
-    @GetMapping("/technologies/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id) throws TechnologyNotFoundException {
-        return new ResponseEntity<>(this.technologyService.findById(id), HttpStatus.OK);
-    }
+//    @GetMapping("/technologies/{id}")
+//    public ResponseEntity<?> findById(@PathVariable Integer id) throws TechnologyNotFoundException {
+//        return new ResponseEntity<>(this.technologyService.findById(id), HttpStatus.OK);
+//    }
 
     // endpoint: Retrieve a Technology based on its Name
     @GetMapping("/technologies/name")
@@ -67,14 +67,14 @@ public class TechnologyController {
     }
 
     // endpoint: Delete a Technology based on its ID
-    @DeleteMapping("/technologies/{id}")
-    public ResponseEntity<?> deleteTechnology(@PathVariable Integer id) throws TechnologyNotFoundException {
-        if (this.technologyService.deleteTechnologyById(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @DeleteMapping("/technologies/{id}")
+//    public ResponseEntity<?> deleteTechnology(@PathVariable Integer id) throws TechnologyNotFoundException {
+//        if (this.technologyService.deleteTechnologyById(id)) {
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     // endpoint: Delete a Technology based on its Name
     @DeleteMapping("/technologies/name")

@@ -21,7 +21,7 @@ public class Course {
     private Integer courseId;
 
     @NonNull
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
     @NonNull
