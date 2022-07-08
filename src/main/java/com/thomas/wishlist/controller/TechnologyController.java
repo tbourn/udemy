@@ -1,10 +1,11 @@
 package com.thomas.wishlist.controller;
 
+import com.thomas.wishlist.dto.TechnologyResponse;
 import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.TechnologyNotFoundException;
 import com.thomas.wishlist.repository.TechnologyRepository;
 import com.thomas.wishlist.service.TechnologyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class TechnologyController {
@@ -20,17 +22,40 @@ public class TechnologyController {
 
     private final TechnologyRepository technologyRepository;
 
-    @Autowired
-    public TechnologyController(TechnologyService technologyService, TechnologyRepository technologyRepository) {
-        this.technologyService = technologyService;
-        this.technologyRepository = technologyRepository;
-    }
+//    @Autowired
+//    public TechnologyController(TechnologyService technologyService, TechnologyRepository technologyRepository) {
+//        this.technologyService = technologyService;
+//        this.technologyRepository = technologyRepository;
+//    }
 
     // endpoint: Create a new Technology record
+//    @PostMapping("/technologies")
+//    public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
+//        return new ResponseEntity<>(this.technologyService.createTechnology(technology), HttpStatus.CREATED);
+//    }
     @PostMapping("/technologies")
     public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
-        return new ResponseEntity<>(this.technologyService.createTechnology(technology), HttpStatus.CREATED);
+
+        technology = this.technologyService.createTechnology(technology);
+
+        TechnologyResponse technologyResponse = new TechnologyResponse();
+        technologyResponse.setTechnologyId(technology.getTechnologyId());
+        technologyResponse.setName(technology.getName());
+        technologyResponse.setTechnologyAvg(technology.getTechnologyAvg());
+
+        return new ResponseEntity<>(technologyResponse, HttpStatus.CREATED);
     }
+
+//    @PostMapping("/technologies")
+//    public ResponseEntity<?> createTechnology(@Valid @RequestBody TechnologyResponse technologyResponse) {
+//
+//        Technology technology = new Technology();
+//        technology.setTechnologyId(technologyResponse.getTechnologyId());
+//        technology.setName(technologyResponse.getName());
+//        technology.setTechnologyAvg(technologyResponse.getTechnologyAvg());
+//
+//        return new ResponseEntity<>(this.technologyService.createTechnology(technology), HttpStatus.CREATED);
+//    }
 
     // endpoint: Retrieve the list of all the Technologies records
     @GetMapping("/technologies")

@@ -6,12 +6,14 @@ import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.CourseNotFoundException;
 import com.thomas.wishlist.repository.CourseRepository;
 import com.thomas.wishlist.service.CourseService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class CourseController {
@@ -26,20 +28,23 @@ public class CourseController {
 //        this.technologyService = technologyService;
 //    }
 
-    public CourseController(CourseService courseService, CourseRepository courseRepository) {
-        this.courseService = courseService;
-        this.courseRepository = courseRepository;
-    }
+//    public CourseController(CourseService courseService, CourseRepository courseRepository) {
+//        this.courseService = courseService;
+//        this.courseRepository = courseRepository;
+//    }
 
     // endpoint: create a new Course under a specific Technology
     @PostMapping("/courses")
     public ResponseEntity<?> createCourse(@Valid @RequestBody CourseRequest courseRequest) {
+
         Course course = new Course();
         course.setName(courseRequest.getName());
         course.setCompletionPercentage(courseRequest.getCompletionPercentage());
+
         Technology technology = new Technology();
         technology.setTechnologyId(courseRequest.getTechnologyId());
         course.setTechnologyId(technology);
+
         return new ResponseEntity<>(this.courseService.createCourse(course), HttpStatus.CREATED);
     }
 

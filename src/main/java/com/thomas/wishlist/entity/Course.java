@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "course")
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Getter
+@Setter
 @ToString
 public class Course {
 
@@ -21,16 +21,13 @@ public class Course {
     private Integer courseId;
 
     @NonNull
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @NonNull
     @Column(name = "completion_percentage")
     double completionPercentage;
 
-    //    @ManyToOne(fetch = FetchType.LAZY,
-//            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-//    @JoinColumn(name = "technology_id", nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "technology_id")
     @NotNull(message = "Technology has to be present")
