@@ -22,17 +22,6 @@ public class TechnologyController {
 
     private final TechnologyRepository technologyRepository;
 
-//    @Autowired
-//    public TechnologyController(TechnologyService technologyService, TechnologyRepository technologyRepository) {
-//        this.technologyService = technologyService;
-//        this.technologyRepository = technologyRepository;
-//    }
-
-    // endpoint: Create a new Technology record
-//    @PostMapping("/technologies")
-//    public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
-//        return new ResponseEntity<>(this.technologyService.createTechnology(technology), HttpStatus.CREATED);
-//    }
     @PostMapping("/technologies")
     public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
 
