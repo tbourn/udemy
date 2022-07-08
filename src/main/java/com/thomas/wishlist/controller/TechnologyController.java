@@ -22,17 +22,6 @@ public class TechnologyController {
 
     private final TechnologyRepository technologyRepository;
 
-//    @Autowired
-//    public TechnologyController(TechnologyService technologyService, TechnologyRepository technologyRepository) {
-//        this.technologyService = technologyService;
-//        this.technologyRepository = technologyRepository;
-//    }
-
-    // endpoint: Create a new Technology record
-//    @PostMapping("/technologies")
-//    public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
-//        return new ResponseEntity<>(this.technologyService.createTechnology(technology), HttpStatus.CREATED);
-//    }
     @PostMapping("/technologies")
     public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
 
@@ -45,17 +34,6 @@ public class TechnologyController {
 
         return new ResponseEntity<>(technologyResponse, HttpStatus.CREATED);
     }
-
-//    @PostMapping("/technologies")
-//    public ResponseEntity<?> createTechnology(@Valid @RequestBody TechnologyResponse technologyResponse) {
-//
-//        Technology technology = new Technology();
-//        technology.setTechnologyId(technologyResponse.getTechnologyId());
-//        technology.setName(technologyResponse.getName());
-//        technology.setTechnologyAvg(technologyResponse.getTechnologyAvg());
-//
-//        return new ResponseEntity<>(this.technologyService.createTechnology(technology), HttpStatus.CREATED);
-//    }
 
     // endpoint: Retrieve the list of all the Technologies records
     @GetMapping("/technologies")
@@ -71,13 +49,6 @@ public class TechnologyController {
                 this.technologyService.findAllTechnology()), HttpStatus.OK);
     }
 
-
-    // endpoint: Retrieve a Technology based on its ID
-//    @GetMapping("/technologies/{id}")
-//    public ResponseEntity<?> findById(@PathVariable Integer id) throws TechnologyNotFoundException {
-//        return new ResponseEntity<>(this.technologyService.findById(id), HttpStatus.OK);
-//    }
-
     // endpoint: Retrieve a Technology based on its Name
     @GetMapping("/technologies/name")
     public ResponseEntity<Optional<?>> getTechnologyByName(@RequestParam String name) {
@@ -90,16 +61,6 @@ public class TechnologyController {
             throws TechnologyNotFoundException {
         return new ResponseEntity<>(this.technologyService.updateTechnology(technology, id), HttpStatus.OK);
     }
-
-    // endpoint: Delete a Technology based on its ID
-//    @DeleteMapping("/technologies/{id}")
-//    public ResponseEntity<?> deleteTechnology(@PathVariable Integer id) throws TechnologyNotFoundException {
-//        if (this.technologyService.deleteTechnologyById(id)) {
-//            return ResponseEntity.ok().build();
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
     // endpoint: Delete a Technology based on its Name
     @DeleteMapping("/technologies/name")

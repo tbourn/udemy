@@ -14,7 +14,5 @@ public interface CourseService {
 
     List<Course> findAllCourse();
 
-    boolean deleteCourseById(Integer courseId) throws CourseNotFoundException;
-
     boolean deleteCourseByName(String name) throws CourseNotFoundException;
 }

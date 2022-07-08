@@ -41,7 +41,7 @@ public class Technology {
             }
 
             return temp / courses.size();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return 0.0;

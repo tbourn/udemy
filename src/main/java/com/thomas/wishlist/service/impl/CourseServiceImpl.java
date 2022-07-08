@@ -6,29 +6,25 @@ import com.thomas.wishlist.exception.CourseNotFoundException;
 import com.thomas.wishlist.repository.CourseRepository;
 import com.thomas.wishlist.repository.TechnologyRepository;
 import com.thomas.wishlist.service.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
+    private final CourseRepository courseRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private TechnologyRepository technologyRepository;
+    private final TechnologyRepository technologyRepository;
 
     @Override
     public Course createCourse(Course course) {
         if (course.getTechnologyId() != null) {
-                        Optional<Technology> technology = this.technologyRepository
+            Optional<Technology> technology = this.technologyRepository
                     .findById(course.getTechnologyId().getTechnologyId());
-            if (technology.isPresent()) {
-                course.setTechnologyId(technology.get());
-            }
+            technology.ifPresent(course::setTechnologyId);
         }
         return this.courseRepository.save(course);
     }
@@ -52,14 +48,6 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findAllCourse() {
         return courseRepository.findAll();
-    }
-
-    @Override
-    public boolean deleteCourseById(Integer courseId) throws CourseNotFoundException {
-        return this.courseRepository.findById(courseId).map(tempCourse -> {
-            this.courseRepository.delete(tempCourse);
-            return true;
-        }).orElseThrow(() -> new CourseNotFoundException(courseId));
     }
 
     @Override
