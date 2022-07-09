@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CourseRequest {
-    public Integer technologyId;
     public String name;
     public double completionPercentage;
+    public Integer technologyId;
 }

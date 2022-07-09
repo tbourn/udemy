@@ -25,8 +25,12 @@ public class TechnologyServiceImpl implements TechnologyService {
         // sort by key, use case-insensitive order
         Map<String, List<Course>> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-        // shallow copy of list
-        List<Technology> copyArray = new ArrayList<>(list);
+        // deep copy of list
+        List<Technology> copyArray = new ArrayList<>(list.size());
+
+        for (Technology technology : list) {
+            copyArray.add(new Technology(technology));
+        }
 
         for (Technology technology : copyArray) {
             map.put(technology.getName(), technology.getCourses());
@@ -34,6 +38,10 @@ public class TechnologyServiceImpl implements TechnologyService {
             // sort by course name
             technology.getCourses().sort(Comparator.comparing(Course::getName));
         }
+
+        boolean isEqual = list.equals(copyArray);
+        System.out.println(isEqual);
+
         return map;
     }
 
