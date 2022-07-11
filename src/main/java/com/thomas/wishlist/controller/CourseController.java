@@ -24,11 +24,11 @@ public class CourseController {
     @PostMapping("/courses")
     public ResponseEntity<?> createCourse(@Valid @RequestBody CourseRequest courseRequest) {
 
-        Course course = new Course();
+        var course = new Course();
         course.setName(courseRequest.getName());
         course.setCompletionPercentage(courseRequest.getCompletionPercentage());
 
-        Technology technology = new Technology();
+        var technology = new Technology();
         technology.setTechnologyId(courseRequest.getTechnologyId());
         course.setTechnologyId(technology);
 
@@ -52,7 +52,7 @@ public class CourseController {
     public ResponseEntity<?> updateCourse(@Valid @RequestBody CourseRequest courseRequest, @PathVariable Integer id)
             throws CourseNotFoundException {
 
-        Course course = courseService.findById(id);
+        var course = courseService.findById(id);
         course.setName(courseRequest.getName());
         course.setCompletionPercentage(courseRequest.getCompletionPercentage());
 

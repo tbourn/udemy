@@ -27,7 +27,7 @@ public class TechnologyController {
 
         technology = this.technologyService.createTechnology(technology);
 
-        TechnologyResponse technologyResponse = new TechnologyResponse();
+        var technologyResponse = new TechnologyResponse();
         technologyResponse.setTechnologyId(technology.getTechnologyId());
         technologyResponse.setName(technology.getName());
         technologyResponse.setTechnologyAvg(technology.getTechnologyAvg());
@@ -74,7 +74,6 @@ public class TechnologyController {
 //            System.out.println("TECHNOLOGY NOT FOUND");
 //        }
 //        return ResponseEntity.notFound().build();
-
 
 
         if (this.technologyService.deleteTechnologyByName(name)) {

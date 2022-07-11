@@ -1,7 +1,6 @@
 package com.thomas.wishlist.service.impl;
 
 import com.thomas.wishlist.entity.Course;
-import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.CourseNotFoundException;
 import com.thomas.wishlist.repository.CourseRepository;
 import com.thomas.wishlist.repository.TechnologyRepository;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course createCourse(Course course) {
         if (course.getTechnologyId() != null) {
-            Optional<Technology> technology = this.technologyRepository
+            var technology = this.technologyRepository
                     .findById(course.getTechnologyId().getTechnologyId());
             technology.ifPresent(course::setTechnologyId);
         }

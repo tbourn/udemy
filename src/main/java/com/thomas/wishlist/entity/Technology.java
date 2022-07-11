@@ -42,7 +42,7 @@ public class Technology {
     public double getTechnologyAvg() {
         try {
             // I used this temp variable, otherwise the method is invoked twice!
-            double temp = technologyAvg;
+            var temp = technologyAvg;
             for (Course course : courses) {
                 temp += course.getCompletionPercentage();
             }
@@ -58,7 +58,7 @@ public class Technology {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Technology that = (Technology) o;
+        var that = (Technology) o;
         return Double.compare(that.technologyAvg, technologyAvg) == 0 && Objects.equals(technologyId, that.technologyId)
                 && name.equals(that.name) && Objects.equals(courses, that.courses);
     }

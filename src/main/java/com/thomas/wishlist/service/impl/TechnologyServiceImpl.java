@@ -39,7 +39,7 @@ public class TechnologyServiceImpl implements TechnologyService {
             technology.getCourses().sort(Comparator.comparing(Course::getName));
         }
 
-        boolean isEqual = list.equals(copyArray);
+        var isEqual = list.equals(copyArray);
         System.out.println(isEqual);
 
         return map;
