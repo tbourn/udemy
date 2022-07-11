@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "technology")
@@ -32,6 +31,11 @@ public class Technology {
     @Transient
     private double technologyAvg = 0.0;
 
+    /**
+     * Copy constructor.
+     *
+     * @param technology of Technology type
+     */
     public Technology(Technology technology) {
         this.technologyId = technology.getTechnologyId();
         this.name = technology.getName();
@@ -39,6 +43,11 @@ public class Technology {
         this.technologyAvg = technology.getTechnologyAvg();
     }
 
+    /**
+     * Returns the average of the courses for a technology. Default value is zero.
+     *
+     * @return double
+     */
     public double getTechnologyAvg() {
         try {
             // I used this temp variable, otherwise the method is invoked twice!
@@ -52,18 +61,5 @@ public class Technology {
             System.out.println("There are not currently any courses assigned. AVG is set to zero.");
         }
         return 0.0;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Technology that = (Technology) o;
-        return name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(technologyId, name, courses, technologyAvg);
     }
 }

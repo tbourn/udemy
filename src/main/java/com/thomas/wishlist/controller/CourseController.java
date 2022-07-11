@@ -41,6 +41,7 @@ public class CourseController {
             throws CourseNotFoundException {
         if (null != courseRequest) {
             System.err.println("TO BE FIXED");
+            // Check if id exists
 
             var course = courseService.findById(id);
             course.setName(courseRequest.getName());
