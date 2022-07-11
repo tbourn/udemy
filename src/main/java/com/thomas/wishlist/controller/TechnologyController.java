@@ -1,9 +1,7 @@
 package com.thomas.wishlist.controller;
 
-import com.thomas.wishlist.dto.TechnologyResponse;
 import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.TechnologyNotFoundException;
-import com.thomas.wishlist.repository.TechnologyRepository;
 import com.thomas.wishlist.service.TechnologyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.Comparator;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,25 +18,19 @@ public class TechnologyController {
 
     private final TechnologyService technologyService;
 
-    private final TechnologyRepository technologyRepository;
-
+    // endpoint: Create a Technology
     @PostMapping("/technologies")
     public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
-
-        technology = this.technologyService.createTechnology(technology);
-
-        var technologyResponse = new TechnologyResponse();
-        technologyResponse.setTechnologyId(technology.getTechnologyId());
-        technologyResponse.setName(technology.getName());
-        technologyResponse.setTechnologyAvg(technology.getTechnologyAvg());
-
+        var technologyResponse = technologyService.createTechnology(technology);
         return new ResponseEntity<>(technologyResponse, HttpStatus.CREATED);
     }
 
     // endpoint: Retrieve the list of all the Technologies records
     @GetMapping("/technologies")
     public ResponseEntity<?> findAll() {
-        return new ResponseEntity<>(this.technologyService.findAllTechnology(), HttpStatus.OK);
+        var technologyList = this.technologyService.findAllTechnology();
+        technologyList.sort(Comparator.comparingInt(Technology::getTechnologyId));
+        return new ResponseEntity<>(technologyList, HttpStatus.OK);
     }
 
     // endpoint: Retrieve a map with: keys all the Technology Names and values the
@@ -51,36 +43,35 @@ public class TechnologyController {
 
     // endpoint: Retrieve a Technology based on its Name
     @GetMapping("/technologies/name")
-    public ResponseEntity<Optional<?>> getTechnologyByName(@RequestParam String name) {
-        return new ResponseEntity<>(technologyRepository.findByName(name), HttpStatus.OK);
+    public ResponseEntity<?> getTechnologyByName(@RequestParam String name) throws TechnologyNotFoundException {
+        if (null != name) {
+            if (technologyService.findTechnologyByName(name).isPresent()) {
+                return new ResponseEntity<>(technologyService.findTechnologyByName(name), HttpStatus.OK);
+            }
+
+        }
+        return new ResponseEntity<>("TECHNOLOGY " + name + " IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
     // endpoint: Update an existing Technology record
     @PutMapping("/technologies/{id}")
     public ResponseEntity<?> updateTechnology(@Valid @RequestBody Technology technology, @PathVariable Integer id)
             throws TechnologyNotFoundException {
-        return new ResponseEntity<>(this.technologyService.updateTechnology(technology, id), HttpStatus.OK);
+        if (null != technology) {
+            return new ResponseEntity<>(this.technologyService.updateTechnology(technology, id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("TECHNOLOGY IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
     // endpoint: Delete a Technology based on its Name
     @DeleteMapping("/technologies/name")
     public ResponseEntity<?> deleteTechnologyByName(@RequestParam String name) throws TechnologyNotFoundException {
-
-//        try {
-//            if (this.technologyService.deleteTechnologyByName(name)) {
-//                return ResponseEntity.ok().build();
-//            }
-//        } catch (NullPointerException e){
-//            System.out.println("TECHNOLOGY NOT FOUND");
-//        }
-//        return ResponseEntity.notFound().build();
-
-
-        if (this.technologyService.deleteTechnologyByName(name)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
+        if (null != name && technologyService.findTechnologyByName(name).isPresent()) {
+            if (this.technologyService.deleteTechnologyByName(name)) {
+                return new ResponseEntity<>("TECHNOLOGY " + name + " IS DELETED", HttpStatus.OK);
+            }
         }
+        return new ResponseEntity<>("TECHNOLOGY IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
 }

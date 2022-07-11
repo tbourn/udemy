@@ -58,9 +58,8 @@ public class Technology {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        var that = (Technology) o;
-        return Double.compare(that.technologyAvg, technologyAvg) == 0 && Objects.equals(technologyId, that.technologyId)
-                && name.equals(that.name) && Objects.equals(courses, that.courses);
+        Technology that = (Technology) o;
+        return name.equals(that.name);
     }
 
     @Override

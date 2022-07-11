@@ -39,19 +39,24 @@ public class TechnologyServiceImpl implements TechnologyService {
             technology.getCourses().sort(Comparator.comparing(Course::getName));
         }
 
-        var isEqual = list.equals(copyArray);
-        System.out.println(isEqual);
-
         return map;
     }
 
     @Override
+    public Optional<Technology> findTechnologyByName(String name) {
+        return technologyRepository.findByName(name);
+    }
+
+    @Override
     public Technology updateTechnology(Technology technology, Integer technologyId) throws TechnologyNotFoundException {
-        return this.technologyRepository.findById(technologyId).map(tech -> {
-            tech.setName(technology.getName());
-            return technologyRepository.save(tech);
-        }).orElseThrow(
-                () -> new TechnologyNotFoundException("COULD NOT FIND TECHNOLOGY " + technology.getTechnologyId()));
+        if (technologyRepository.findById(technologyId).isPresent()){
+            return this.technologyRepository.findById(technologyId).map(tech -> {
+                tech.setName(technology.getName());
+                return technologyRepository.save(tech);
+            }).orElseThrow(
+                    () -> new TechnologyNotFoundException("COULD NOT FIND TECHNOLOGY " + technology.getTechnologyId()));
+        }
+        return null;
     }
 
     @Override
