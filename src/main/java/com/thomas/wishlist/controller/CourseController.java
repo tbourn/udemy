@@ -20,7 +20,7 @@ public class CourseController {
     private final CourseService courseService;
     private final CourseRepository courseRepository;
 
-    // endpoint: create a new Course under a specific Technology
+    // endpoint: Create a new Course under a specific Technology
     @PostMapping("/courses")
     public ResponseEntity<?> createCourse(@Valid @RequestBody CourseRequest courseRequest) {
 
@@ -35,6 +35,23 @@ public class CourseController {
         return new ResponseEntity<>(this.courseService.createCourse(course), HttpStatus.CREATED);
     }
 
+    // endpoint: Update an existing Course
+    @PutMapping("courses/{id}")
+    public ResponseEntity<?> updateCourse(@Valid @RequestBody CourseRequest courseRequest, @PathVariable Integer id)
+            throws CourseNotFoundException {
+        if (null != courseRequest) {
+            System.err.println("TO BE FIXED");
+
+            var course = courseService.findById(id);
+            course.setName(courseRequest.getName());
+            course.setCompletionPercentage(courseRequest.getCompletionPercentage());
+
+            return new ResponseEntity<>(this.courseService.updateCourse(course, id), HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>("COURSE IS NOT FOUND", HttpStatus.NOT_FOUND);
+    }
+
     // endpoint: Retrieve the list of all the Courses records
     @GetMapping("/courses")
     public ResponseEntity<?> findAll() {
@@ -44,28 +61,20 @@ public class CourseController {
     // endpoint: Retrieve a Course based on its Name
     @GetMapping("/courses/name")
     public ResponseEntity<?> getCourseByName(@RequestParam String name) {
-        return new ResponseEntity<>(courseRepository.findByName(name), HttpStatus.OK);
-    }
-
-    // endpoint: update an existing Course
-    @PutMapping("courses/{id}")
-    public ResponseEntity<?> updateCourse(@Valid @RequestBody CourseRequest courseRequest, @PathVariable Integer id)
-            throws CourseNotFoundException {
-
-        var course = courseService.findById(id);
-        course.setName(courseRequest.getName());
-        course.setCompletionPercentage(courseRequest.getCompletionPercentage());
-
-        return new ResponseEntity<>(this.courseService.updateCourse(course, id), HttpStatus.OK);
+        if (null != name && courseService.findCourseByName(name).isPresent()) {
+            return new ResponseEntity<>(courseService.findCourseByName(name), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("TECHNOLOGY " + name + " IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
     // endpoint: Delete a Course based on its Name
     @DeleteMapping("/courses/name")
     public ResponseEntity<?> deleteCourseByName(@RequestParam String name) throws CourseNotFoundException {
-        if (this.courseService.deleteCourseByName(name)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
+        if (null != name && courseService.findCourseByName(name).isPresent()) {
+            if (this.courseService.deleteCourseByName(name)) {
+                return new ResponseEntity<>("COURSE " + name + " IS DELETED", HttpStatus.OK);
+            }
         }
+        return new ResponseEntity<>("COURSE " + name + " IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 }

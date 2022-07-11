@@ -49,7 +49,7 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     public Technology updateTechnology(Technology technology, Integer technologyId) throws TechnologyNotFoundException {
-        if (technologyRepository.findById(technologyId).isPresent()){
+        if (technologyRepository.findById(technologyId).isPresent()) {
             return this.technologyRepository.findById(technologyId).map(tech -> {
                 tech.setName(technology.getName());
                 return technologyRepository.save(tech);

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,13 +35,21 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Optional<Course> findCourseByName(String name) {
+        return courseRepository.findByName(name);
+    }
+
+    @Override
     public Course updateCourse(Course course, Integer courseId) throws CourseNotFoundException {
-        return this.courseRepository.findById(courseId).map(tempCourse -> {
-            tempCourse.setName(course.getName());
-            tempCourse.setCompletionPercentage(course.getCompletionPercentage());
-            tempCourse.setTechnologyId(course.getTechnologyId());
-            return this.courseRepository.save(tempCourse);
-        }).orElseThrow(() -> new CourseNotFoundException(course.getCourseId()));
+        if (courseRepository.findById(courseId).isPresent()) {
+            return this.courseRepository.findById(courseId).map(tempCourse -> {
+                tempCourse.setName(course.getName());
+                tempCourse.setCompletionPercentage(course.getCompletionPercentage());
+                tempCourse.setTechnologyId(course.getTechnologyId());
+                return this.courseRepository.save(tempCourse);
+            }).orElseThrow(() -> new CourseNotFoundException(course.getCourseId()));
+        }
+        return null;
     }
 
     @Override

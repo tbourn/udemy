@@ -18,11 +18,21 @@ public class TechnologyController {
 
     private final TechnologyService technologyService;
 
-    // endpoint: Create a Technology
+    // endpoint: Create a new Technology record
     @PostMapping("/technologies")
     public ResponseEntity<?> createTechnology(@Valid @RequestBody Technology technology) {
         var technologyResponse = technologyService.createTechnology(technology);
         return new ResponseEntity<>(technologyResponse, HttpStatus.CREATED);
+    }
+
+    // endpoint: Update an existing Technology record
+    @PutMapping("/technologies/{id}")
+    public ResponseEntity<?> updateTechnology(@Valid @RequestBody Technology technology, @PathVariable Integer id)
+            throws TechnologyNotFoundException {
+        if (null != technology) {
+            return new ResponseEntity<>(this.technologyService.updateTechnology(technology, id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("TECHNOLOGY IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
     // endpoint: Retrieve the list of all the Technologies records
@@ -44,23 +54,10 @@ public class TechnologyController {
     // endpoint: Retrieve a Technology based on its Name
     @GetMapping("/technologies/name")
     public ResponseEntity<?> getTechnologyByName(@RequestParam String name) throws TechnologyNotFoundException {
-        if (null != name) {
-            if (technologyService.findTechnologyByName(name).isPresent()) {
-                return new ResponseEntity<>(technologyService.findTechnologyByName(name), HttpStatus.OK);
-            }
-
+        if (null != name && technologyService.findTechnologyByName(name).isPresent()) {
+            return new ResponseEntity<>(technologyService.findTechnologyByName(name), HttpStatus.OK);
         }
         return new ResponseEntity<>("TECHNOLOGY " + name + " IS NOT FOUND", HttpStatus.NOT_FOUND);
-    }
-
-    // endpoint: Update an existing Technology record
-    @PutMapping("/technologies/{id}")
-    public ResponseEntity<?> updateTechnology(@Valid @RequestBody Technology technology, @PathVariable Integer id)
-            throws TechnologyNotFoundException {
-        if (null != technology) {
-            return new ResponseEntity<>(this.technologyService.updateTechnology(technology, id), HttpStatus.OK);
-        }
-        return new ResponseEntity<>("TECHNOLOGY IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
     // endpoint: Delete a Technology based on its Name
