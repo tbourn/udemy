@@ -55,6 +55,6 @@ public class CourseServiceImpl implements CourseService {
         return this.courseRepository.findByName(courseName).map(tempCourse -> {
             this.courseRepository.delete(tempCourse);
             return true;
-        }).orElseThrow(() -> new CourseNotFoundException("No record found for department " + courseName));
+        }).orElseThrow(() -> new CourseNotFoundException("NO RECORD FOUND FOR COURSE " + courseName));
     }
 }

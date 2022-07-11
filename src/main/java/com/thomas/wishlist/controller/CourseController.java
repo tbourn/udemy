@@ -6,14 +6,14 @@ import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.CourseNotFoundException;
 import com.thomas.wishlist.repository.CourseRepository;
 import com.thomas.wishlist.service.CourseService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class CourseController {

@@ -51,7 +51,7 @@ public class TechnologyServiceImpl implements TechnologyService {
             tech.setName(technology.getName());
             return technologyRepository.save(tech);
         }).orElseThrow(
-                () -> new TechnologyNotFoundException("Could not find department " + technology.getTechnologyId()));
+                () -> new TechnologyNotFoundException("COULD NOT FIND TECHNOLOGY " + technology.getTechnologyId()));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TechnologyServiceImpl implements TechnologyService {
         return this.technologyRepository.findByName(technologyName).map(tech -> {
             this.technologyRepository.delete(tech);
             return true;
-        }).orElseThrow(() -> new TechnologyNotFoundException("No record found for department " + technologyName));
+        }).orElseThrow(() -> new TechnologyNotFoundException("NO RECORD FOUND FOR TECHNOLOGY " + technologyName));
     }
 
 }

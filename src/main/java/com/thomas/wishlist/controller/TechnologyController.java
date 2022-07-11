@@ -5,7 +5,7 @@ import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.TechnologyNotFoundException;
 import com.thomas.wishlist.repository.TechnologyRepository;
 import com.thomas.wishlist.service.TechnologyService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class TechnologyController {
@@ -65,6 +65,18 @@ public class TechnologyController {
     // endpoint: Delete a Technology based on its Name
     @DeleteMapping("/technologies/name")
     public ResponseEntity<?> deleteTechnologyByName(@RequestParam String name) throws TechnologyNotFoundException {
+
+//        try {
+//            if (this.technologyService.deleteTechnologyByName(name)) {
+//                return ResponseEntity.ok().build();
+//            }
+//        } catch (NullPointerException e){
+//            System.out.println("TECHNOLOGY NOT FOUND");
+//        }
+//        return ResponseEntity.notFound().build();
+
+
+
         if (this.technologyService.deleteTechnologyByName(name)) {
             return ResponseEntity.ok().build();
         } else {
