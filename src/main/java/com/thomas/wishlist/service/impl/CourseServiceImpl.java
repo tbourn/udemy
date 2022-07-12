@@ -18,6 +18,12 @@ public class CourseServiceImpl implements CourseService {
 
     private final TechnologyRepository technologyRepository;
 
+    /**
+     * Creates a new Course object
+     *
+     * @param course of Course type
+     * @return Course object
+     */
     @Override
     public Course createCourse(Course course) {
         if (course.getTechnologyId() != null) {
@@ -28,17 +34,38 @@ public class CourseServiceImpl implements CourseService {
         return this.courseRepository.save(course);
     }
 
+    /**
+     * Finds a course given a number.
+     *
+     * @param courseId of Integer type
+     * @return Course object
+     * @throws CourseNotFoundException
+     */
     @Override
     public Course findById(Integer courseId) throws CourseNotFoundException {
         return this.courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
     }
 
+    /**
+     * Returns an Optional<Course>
+     *
+     * @param name of String type
+     * @return Optional<Course>
+     */
     @Override
     public Optional<Course> findCourseByName(String name) {
         return courseRepository.findByName(name);
     }
 
+    /**
+     * Updates a course given an ID number.
+     *
+     * @param course   of Course type
+     * @param courseId of Integer type
+     * @return Course object
+     * @throws CourseNotFoundException
+     */
     @Override
     public Course updateCourse(Course course, Integer courseId) throws CourseNotFoundException {
         if (courseRepository.findById(courseId).isPresent()) {
@@ -52,11 +79,23 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
+    /**
+     * Returns a List of all the courses
+     *
+     * @return List<Course></Course>
+     */
     @Override
     public List<Course> findAllCourse() {
         return courseRepository.findAll();
     }
 
+    /**
+     * Deletes a course by name.
+     *
+     * @param courseName of String type
+     * @return boolean
+     * @throws CourseNotFoundException
+     */
     @Override
     public boolean deleteCourseByName(String courseName) throws CourseNotFoundException {
         return this.courseRepository.findByName(courseName).map(tempCourse -> {
