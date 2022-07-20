@@ -76,7 +76,7 @@ public class TechnologyController {
     }
 
     // endpoint: Create a new list of Technologies
-    @PostMapping("/technologies-list")
+    @PostMapping(value = "/technologies-list", consumes="*/*")
     public ResponseEntity<?> createTechnologyList(@Valid @RequestBody ListOfTechnologiesRequest technologies) {
         if (null!=technologies){
             List<Technology> technologyList = new ArrayList<>();
