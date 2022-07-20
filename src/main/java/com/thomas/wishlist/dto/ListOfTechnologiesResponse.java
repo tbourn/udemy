@@ -10,6 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ListofTechonologiesResponse {
+public class ListOfTechnologiesResponse {
     private List<Technology> technologies;
 }

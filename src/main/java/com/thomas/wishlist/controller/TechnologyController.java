@@ -1,7 +1,7 @@
 package com.thomas.wishlist.controller;
 
 import com.thomas.wishlist.dto.ListOfTechnologiesRequest;
-import com.thomas.wishlist.dto.ListofTechonologiesResponse;
+import com.thomas.wishlist.dto.ListOfTechnologiesResponse;
 import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.TechnologyNotFoundException;
 import com.thomas.wishlist.service.TechnologyService;
@@ -82,11 +82,12 @@ public class TechnologyController {
             List<Technology> technologyList = new ArrayList<>();
             for (Technology tech:technologies.getTechnologies()) {
                 technologyList.add(tech);
-                technologyService.createTechnology(tech);
+                // to fix persistence
+//                technologyService.createTechnology(tech);
             }
-            ListofTechonologiesResponse listofTechonologiesResponse = new ListofTechonologiesResponse();
-            listofTechonologiesResponse.setTechnologies(technologyList);
-            return new ResponseEntity<>(listofTechonologiesResponse, HttpStatus.CREATED);
+            ListOfTechnologiesResponse listofTechnologiesResponse = new ListOfTechnologiesResponse();
+            listofTechnologiesResponse.setTechnologies(technologyList);
+            return new ResponseEntity<>(listofTechnologiesResponse, HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>("TECHNOLOGY LIST IS NOT FOUND", HttpStatus.NOT_FOUND);
