@@ -18,6 +18,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
+    @JsonIgnore
     private Integer courseId;
 
     @NonNull

@@ -44,10 +44,12 @@ public class CourseController {
             // Check if id exists
 
             var course = courseService.findById(id);
-            course.setName(courseRequest.getName());
-            course.setCompletionPercentage(courseRequest.getCompletionPercentage());
+            if (course.getName().equals(courseRequest.getName())){
+                course.setName(courseRequest.getName());
+                course.setCompletionPercentage(courseRequest.getCompletionPercentage());
 
-            return new ResponseEntity<>(this.courseService.updateCourse(course, id), HttpStatus.OK);
+                return new ResponseEntity<>(this.courseService.updateCourse(course, id), HttpStatus.OK);
+            }
 
         }
         return new ResponseEntity<>("COURSE IS NOT FOUND", HttpStatus.NOT_FOUND);

@@ -1,5 +1,7 @@
 package com.thomas.wishlist.controller;
 
+import com.thomas.wishlist.dto.ListOfTechnologiesRequest;
+import com.thomas.wishlist.dto.ListofTechonologiesResponse;
 import com.thomas.wishlist.entity.Technology;
 import com.thomas.wishlist.exception.TechnologyNotFoundException;
 import com.thomas.wishlist.service.TechnologyService;
@@ -9,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -69,6 +73,23 @@ public class TechnologyController {
             }
         }
         return new ResponseEntity<>("TECHNOLOGY IS NOT FOUND", HttpStatus.NOT_FOUND);
+    }
+
+    // endpoint: Create a new list of Technologies
+    @PostMapping("/technologies-list")
+    public ResponseEntity<?> createTechnologyList(@Valid @RequestBody ListOfTechnologiesRequest technologies) {
+        if (null!=technologies){
+            List<Technology> technologyList = new ArrayList<>();
+            for (Technology tech:technologies.getTechnologies()) {
+                technologyList.add(tech);
+                technologyService.createTechnology(tech);
+            }
+            ListofTechonologiesResponse listofTechonologiesResponse = new ListofTechonologiesResponse();
+            listofTechonologiesResponse.setTechnologies(technologyList);
+            return new ResponseEntity<>(listofTechonologiesResponse, HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("TECHNOLOGY LIST IS NOT FOUND", HttpStatus.NOT_FOUND);
     }
 
 }

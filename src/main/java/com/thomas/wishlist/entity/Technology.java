@@ -1,5 +1,6 @@
 package com.thomas.wishlist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Technology {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "technology_id")
+    @JsonIgnore
     private Integer technologyId;
 
     @NonNull
